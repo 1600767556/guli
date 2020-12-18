@@ -1,6 +1,5 @@
 server:
-  port: 8081
-# 服务名 环境设置 dev test prod
+  port: 8001
 spring:
   application:
     name: service-edu
@@ -14,4 +13,13 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+mybatis-plus:
+  mapper-locations: com/ssm/eduservice/mapper/xml/*.xml
+feign:
+  hystrix:
+    enabled: true
 

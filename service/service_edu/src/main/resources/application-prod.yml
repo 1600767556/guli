@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8002
 # 服务名 环境设置 dev test prod
 spring:
   application:

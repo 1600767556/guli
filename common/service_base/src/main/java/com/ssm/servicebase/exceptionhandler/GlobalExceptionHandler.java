@@ -53,5 +53,7 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
         e.printStackTrace();
         return R.error().code(e.getCode()).message(e.getMsg());
+
     }
+
 }

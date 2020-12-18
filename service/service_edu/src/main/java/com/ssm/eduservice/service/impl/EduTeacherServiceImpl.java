@@ -1,10 +1,16 @@
 package com.ssm.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ssm.eduservice.entity.EduTeacher;
 import com.ssm.eduservice.mapper.EduTeacherMapper;
 import com.ssm.eduservice.service.EduTeacherService;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -18,4 +24,31 @@ import org.springframework.stereotype.Service;
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
 
 
+    @Override
+    public Map<String, Object> getTeacherFrontList(Page<EduTeacher> pageParam) {
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        //吧分页数据封装到pageTeacher对象中
+        baseMapper.selectPage(pageParam,wrapper);
+
+        List<EduTeacher> records = pageParam.getRecords();
+        long total = pageParam.getTotal();
+        long current = pageParam.getCurrent();
+        long size = pageParam.getSize();
+        long pages = pageParam.getPages();
+
+        boolean hasNext = pageParam.hasNext();
+        boolean hasPrevious = pageParam.hasPrevious();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("items",records);
+        map.put("current",current);
+        map.put("pages",pages);
+        map.put("size",size);
+        map.put("total",total);
+        map.put("hasNext",hasNext);
+        map.put("hasPrevious",hasPrevious);
+
+        return map;
+    }
 }

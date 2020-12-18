@@ -20,6 +20,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("gmtCreate",new Date(),metaObject);
         this.setFieldValByName("gmtModified",new Date(),metaObject);
+        this.setFieldValByName("isDeleted",false,metaObject);
+        //parent_id  在vo中加字段哦!
+
 
     }
     /**

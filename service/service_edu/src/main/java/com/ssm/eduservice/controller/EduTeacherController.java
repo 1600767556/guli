@@ -7,7 +7,6 @@ import com.ssm.commonutils.R;
 import com.ssm.eduservice.entity.EduTeacher;
 import com.ssm.eduservice.entity.vo.TeacherQuery;
 import com.ssm.eduservice.service.EduTeacherService;
-import com.ssm.servicebase.exceptionhandler.GuliException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,9 +26,10 @@ import java.util.List;
  */
 @Api(description = "讲师管理")
 @RestController
-@CrossOrigin //跨域
+@CrossOrigin
 @RequestMapping("/eduservice/teacher")
 public class EduTeacherController {
+
     @Autowired
     private EduTeacherService eduTeacherService;
 
@@ -45,27 +45,7 @@ public class EduTeacherController {
     public R removeTeacher(@ApiParam(name = "id",value = "讲师ID",required = true)
                            @PathVariable String id) {
         boolean flag = eduTeacherService.removeById(id);
-        return (flag == true) ? R.ok() : R.error();
-    }
-    @ApiOperation(value = "分页查询Teacher")
-    @GetMapping("pageTeacher/{current}/{limit}")
-    public R pageListTeacher(@ApiParam(name = "current",value = "当前页数",required = true)
-                             @PathVariable long current,
-                             @ApiParam(name = "limit",value = "数据条目",required = true)
-                             @PathVariable long limit) {
-        Page<EduTeacher> page = new Page<>(current,limit);
-        eduTeacherService.page(page,null);
-        //总记录数
-
-        try {
-            int i = 10 / 0;
-        } catch (Exception e) {
-            throw new GuliException(20001,"执行了自定义异常处理");
-        }
-        long total = page.getTotal();
-        //每页数据的list集合
-        List<EduTeacher> records = page.getRecords();
-        return R.ok().data("total",total).data("rows",records);
+        return (flag == true) ? R.ok() : R.error().message("删除失败");
     }
 
     @PostMapping("pageTeacherCondition/{current}/{limit}")
@@ -78,27 +58,27 @@ public class EduTeacherController {
                                     @ApiParam(name = "teacherQuery",value = "教师查询",required = true)
                                     TeacherQuery teacherQuery) {
         Page<EduTeacher> pageTeacher = new Page<>(current,limit);
-        //构建条件
         QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
-        //多条件组合查询
+
         String name = teacherQuery.getName();
         Integer level = teacherQuery.getLevel();
         String begin = teacherQuery.getBegin();
         String end = teacherQuery.getEnd();
-        // 判断条件是否为空,如果不为空拼接条件
+
         if (!StringUtils.isEmpty(name)){
             wrapper.like("name",name);
         }
         if (!StringUtils.isEmpty(level)) {
             wrapper.eq("level",level);
         }
-
         if (!StringUtils.isEmpty(begin)){
             wrapper.ge("gmt_create",begin);
         }
         if (!StringUtils.isEmpty(end)){
             wrapper.le("gmt_create",end);
         }
+
+        wrapper.orderByDesc("gmt_create");
         eduTeacherService.page(pageTeacher,wrapper);
         List<EduTeacher> records = pageTeacher.getRecords();
         long total = pageTeacher.getTotal();
@@ -116,6 +96,7 @@ public class EduTeacherController {
         boolean save = eduTeacherService.save(teacher);
         return (save == true) ? R.ok() : R.error();
     }
+
 
     /**
      * 根据id查询讲师
@@ -142,6 +123,7 @@ public class EduTeacherController {
         boolean flag = eduTeacherService.updateById(teacher);
         return (flag == true) ? R.ok() : R.error();
     }
+
     @ApiOperation(value = "修改讲师列表")
     @PostMapping("updateTeacher")
     public R updateTeacher(
