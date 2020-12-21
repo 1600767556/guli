@@ -21,7 +21,7 @@ import java.util.Map;
 @Api(description = "数据展示服务")
 @RestController
 @RequestMapping("/staservice/sta")
-@CrossOrigin
+//@CrossOrigin
 public class StatisticsDailyController {
 
     @Autowired

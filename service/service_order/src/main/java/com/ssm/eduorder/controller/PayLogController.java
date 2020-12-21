@@ -21,7 +21,7 @@ import java.util.Map;
 @Api(description = "微信支付服务")
 @RestController
 @RequestMapping("/eduorder/paylog")
-@CrossOrigin
+//@CrossOrigin
 public class PayLogController {
 
     @Autowired

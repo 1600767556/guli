@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(description = "管理员登录")
 @RestController
 @RequestMapping("/eduservice/user")
-@CrossOrigin
+//@CrossOrigin
 public class EduLoginController {
 
     @ApiOperation(value = "管理员用户名密码")

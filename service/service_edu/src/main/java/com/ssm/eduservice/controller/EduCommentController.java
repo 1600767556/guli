@@ -32,7 +32,7 @@ import java.util.Map;
 @Api(description = "评论管理")
 @RestController
 @RequestMapping("/eduservice/comment")
-@CrossOrigin
+//@CrossOrigin
 public class EduCommentController {
 
     @Autowired

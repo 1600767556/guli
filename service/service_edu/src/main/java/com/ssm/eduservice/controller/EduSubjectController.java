@@ -23,7 +23,7 @@ import java.util.List;
 @Api(description = "excel文件内容读取")
 @RestController
 @RequestMapping("/eduservice/edusubject")
-@CrossOrigin
+//@CrossOrigin
 public class EduSubjectController {
 
     @Autowired
