@@ -22,15 +22,50 @@
         </dependency>
     </dependencies>
     <build>
+
+        <!-- 添加资源 -->
         <resources>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>src/main/resources</directory>
+                <!-- src/main/resources下的指定资源放行 -->
                 <includes>
                     <include>**/*.properties</include>
-                    <include>**/*.xml</include>
+                  <!--  <include>**/*.yml</include>
+                    <include>**/*.xml</include>-->
                 </includes>
                 <filtering>false</filtering>
             </resource>
-        </resources>
+
+
+                <resource>
+                    <directory>src/main/java</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                    </includes>
+                    <filtering>true</filtering>
+                </resource>
+            </resources>
+
+
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.ssm.aclservice.ServiceAclApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
+
 </project>
